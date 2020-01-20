@@ -13,16 +13,21 @@ export class App extends Component {
   };
 
   static propTypes = {
-    searchUsers: PropTypes.func.isRequired
+    searchUsers: PropTypes.func.isRequired,
+    clearSearch: PropTypes.func.isRequired
   };
 
-  async componentDidMount() {
+  clearSearch = async () => {
     this.setState({ loading: true });
     const res = await axios.get(
       `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
 
     this.setState({ users: res.data.slice(0, 18), loading: false });
+  };
+
+  async componentDidMount() {
+    this.clearSearch();
   }
 
   searchUsers = async text => {
@@ -36,7 +41,7 @@ export class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar searchUsers={this.searchUsers} />
+        <Navbar searchUsers={this.searchUsers} clearSearch={this.clearSearch} />
         <UserGrid loading={this.state.loading} users={this.state.users} />
       </React.Fragment>
     );
