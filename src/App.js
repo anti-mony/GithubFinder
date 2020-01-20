@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 import Navbar from "./Components/Layout/Navbar";
 import UserGrid from "./Components/Layout/UserGrid";
@@ -10,11 +9,6 @@ export class App extends Component {
   state = {
     users: [],
     loading: false
-  };
-
-  static propTypes = {
-    searchUsers: PropTypes.func.isRequired,
-    clearSearch: PropTypes.func.isRequired
   };
 
   clearSearch = async () => {
