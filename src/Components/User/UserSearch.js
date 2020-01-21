@@ -19,18 +19,6 @@ export class UserSearch extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  // handleClick = () => {
-  //   setOpen(true);
-  // };
-
-  // handleClose = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-
-  //   setOpen(false);
-  // };
-
   onSubmit = e => {
     e.preventDefault();
     if (this.state.text === "") {
