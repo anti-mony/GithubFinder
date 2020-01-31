@@ -4,6 +4,7 @@ import Search from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Snackbar from "@material-ui/core/Snackbar";
 import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
 
 export class UserSearch extends Component {
   state = {
@@ -42,13 +43,23 @@ export class UserSearch extends Component {
               <InputAdornment position='start'>
                 <Search />
               </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position='end'>
+                {" "}
+                <Button onClick={this.props.clearSearch}>Clear</Button>
+              </InputAdornment>
             )
           }}
           placeholder='Search Username'
-          size='small'
           fullWidth
           value={this.state.text}
           onChange={this.onChange}
+          size='small'
+          style={{
+            backgroundColor: "#eeeeee"
+          }}
+          variant='outlined'
         />
         <div>
           <Snackbar
