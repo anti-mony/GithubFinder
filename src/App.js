@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./Components/Layout/Navbar";
 import UserGrid from "./Components/Layout/UserGrid";
 import About from "./Components/Pages/About";
+import User from "./Components/User/User";
 
 import axios from "axios";
 
 export class App extends Component {
   state = {
     users: [],
+    user: {},
     loading: false
   };
 
@@ -26,6 +28,7 @@ export class App extends Component {
     this.clearSearch();
   }
 
+  // Get all Users
   searchUsers = async text => {
     this.setState({ loading: true });
     const res = await axios.get(
@@ -34,7 +37,19 @@ export class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
+  // Get a single user
+
+  getUser = async username => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    this.setState({ user: res.data, loading: false });
+  };
+
   render() {
+    const { users, user, loading } = this.state;
+
     return (
       <Router>
         <Navbar searchUsers={this.searchUsers} clearSearch={this.clearSearch} />
@@ -42,11 +57,21 @@ export class App extends Component {
           <Route
             exact
             path='/'
-            render={props => (
-              <UserGrid loading={this.state.loading} users={this.state.users} />
-            )}
+            render={props => <UserGrid loading={loading} users={users} />}
           />
           <Route exact path='/about' component={About} />
+          <Route
+            exact
+            path='/user/:login'
+            render={props => (
+              <User
+                {...props}
+                getUser={this.getUser}
+                user={user}
+                loading={loading}
+              ></User>
+            )}
+          ></Route>
         </Switch>
       </Router>
     );

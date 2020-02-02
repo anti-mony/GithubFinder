@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Github from "@material-ui/icons/GitHub";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const UserItem = ({ user: { login, avatar_url, html_url } }) => {
   return (
@@ -30,9 +31,11 @@ const UserItem = ({ user: { login, avatar_url, html_url } }) => {
         </Grid>
         <Grid item xs={3} sm={4} md={4}>
           <CardActions>
-            <Button color='primary' href={html_url}>
-              <Github />
-            </Button>
+            <Link to={`/user/${login}`}>
+              <Button color='primary'>
+                <Github />
+              </Button>
+            </Link>
           </CardActions>
         </Grid>
       </Grid>

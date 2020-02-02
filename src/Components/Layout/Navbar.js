@@ -6,10 +6,10 @@ import Github from "@material-ui/icons/GitHub";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
-import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import { Link } from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
-import About from "../Pages/About";
 import UserSearch from "../User/UserSearch";
 
 const Navbar = ({ title, searchUsers, clearSearch }) => {
@@ -36,9 +36,12 @@ const Navbar = ({ title, searchUsers, clearSearch }) => {
               ></UserSearch>
             </Grid>
           </Hidden>
-          <Grid container xs={6} sm={4} justify='flex-end'>
-            <Button>About</Button>
-            <Button>Menu</Button>
+          <Grid item xs={6} sm={4}>
+            <Box display='flex' flexDirection='row-reverse'>
+              <Link to='/about'>
+                <Button>About</Button>
+              </Link>
+            </Box>
           </Grid>
         </Grid>
       </Toolbar>
