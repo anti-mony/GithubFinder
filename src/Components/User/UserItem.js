@@ -7,7 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Github from "@material-ui/icons/GitHub";
+import Person from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -16,7 +16,7 @@ const UserItem = ({ user: { login, avatar_url, html_url } }) => {
     <Card style={{ margin: 8 }}>
       <CardMedia
         component='img'
-        alt='Contemplative Reptile'
+        alt={login}
         height='216'
         width='216'
         image={avatar_url}
@@ -33,7 +33,7 @@ const UserItem = ({ user: { login, avatar_url, html_url } }) => {
           <CardActions>
             <Link to={`/user/${login}`}>
               <Button color='primary'>
-                <Github />
+                <Person />
               </Button>
             </Link>
           </CardActions>
