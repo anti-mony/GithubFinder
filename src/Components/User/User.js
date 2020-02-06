@@ -7,23 +7,26 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import Github from "@material-ui/icons/GitHub";
 import Web from "@material-ui/icons/Web";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
+import Repos from "../Repos/Repos";
+
 export class User extends Component {
   componentDidMount() {
     this.props.getUser(this.props.match.params.login);
+    this.props.getUserRepos(this.props.match.params.login);
   }
 
   static propTypes = {
     loading: PropTypes.bool,
     user: PropTypes.object.isRequired,
-    getUser: PropTypes.func.isRequired
+    getUser: PropTypes.func.isRequired,
+    getUserRepos: PropTypes.func.isRequired,
+    repos: PropTypes.array.isRequired
   };
 
   render() {
@@ -33,7 +36,6 @@ export class User extends Component {
       location,
       bio,
       blog,
-      login,
       html_url,
       followers,
       following,
@@ -42,7 +44,7 @@ export class User extends Component {
       hireable
     } = this.props.user;
 
-    const { loading } = this.props;
+    const { loading, repos } = this.props;
 
     if (loading) {
       return (
@@ -96,18 +98,79 @@ export class User extends Component {
               ></img>
             </Grid>
             <CardContent>
-              <Typography variant='h5' component='strong'>
-                <strong>Bio</strong>
+              <Typography variant='subtitle1'>
+                <strong>BIO</strong>
               </Typography>
               <Typography variant='body1' component='p' gutterBottom>
-                {bio}
+                {bio ? bio : "Not Provided"}
               </Typography>
 
-              <Grid container spacing={1}>
-                <Grid container item xs={12} spacing={3}></Grid>
-                <Grid container item xs={12} spacing={3}></Grid>
-                <Grid container item xs={12} spacing={3}></Grid>
+              <Grid container justify='center'>
+                <Grid container spacing={4} justify='space-evenly'>
+                  <Grid item sm={6}>
+                    {" "}
+                    <Typography variant='overline' align='center' component='p'>
+                      <strong>Following</strong>
+                    </Typography>
+                    <Typography
+                      variant='body1'
+                      component='p'
+                      align='center'
+                      gutterBottom
+                    >
+                      {following}
+                    </Typography>
+                  </Grid>
+                  <Grid item sm={6}>
+                    {" "}
+                    <Typography variant='overline' align='center' component='p'>
+                      <strong>Followers</strong>
+                    </Typography>
+                    <Typography
+                      variant='body1'
+                      component='p'
+                      align='center'
+                      gutterBottom
+                    >
+                      {followers}
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={4} justify='space-evenly'>
+                  <Grid item sm={6}>
+                    {" "}
+                    <Typography variant='overline' align='center' component='p'>
+                      <strong>Public Repos</strong>
+                    </Typography>
+                    <Typography
+                      variant='body1'
+                      component='p'
+                      align='center'
+                      gutterBottom
+                    >
+                      {public_repos}
+                    </Typography>
+                  </Grid>
+                  <Grid item sm={6}>
+                    {" "}
+                    <Typography variant='overline' align='center' component='p'>
+                      <strong>Public Gists</strong>
+                    </Typography>
+                    <Typography
+                      variant='body1'
+                      component='p'
+                      align='center'
+                      gutterBottom
+                    >
+                      {public_gists}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
+              <Typography variant='subtitle1'>
+                <strong>REPOSITORIES</strong>
+              </Typography>
+              <Repos repos={repos}></Repos>
             </CardContent>
 
             <CardActions>
