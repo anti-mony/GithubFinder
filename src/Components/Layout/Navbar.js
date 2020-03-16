@@ -3,7 +3,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Github from "@material-ui/icons/GitHub";
-import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Box from "@material-ui/core/Box";
@@ -12,7 +11,7 @@ import Button from "@material-ui/core/Button";
 
 import UserSearch from "../User/UserSearch";
 
-const Navbar = ({ title, searchUsers, clearSearch }) => {
+const Navbar = ({ title }) => {
   return (
     <AppBar
       position='sticky'
@@ -30,16 +29,16 @@ const Navbar = ({ title, searchUsers, clearSearch }) => {
           </Grid>
           <Hidden smDown>
             <Grid item sm={4}>
-              <UserSearch
-                searchUsers={searchUsers}
-                clearSearch={clearSearch}
-              ></UserSearch>
+              <UserSearch />
             </Grid>
           </Hidden>
           <Grid item xs={6} sm={4}>
             <Box display='flex' flexDirection='row-reverse'>
               <Link to='/about'>
                 <Button>About</Button>
+              </Link>
+              <Link to='/'>
+                <Button>Home</Button>
               </Link>
             </Box>
           </Grid>
@@ -48,10 +47,7 @@ const Navbar = ({ title, searchUsers, clearSearch }) => {
       <Hidden smUp>
         <Toolbar>
           <Box width={1}>
-            <UserSearch
-              searchUsers={searchUsers}
-              clearSearch={clearSearch}
-            ></UserSearch>
+            <UserSearch />
           </Box>
         </Toolbar>
       </Hidden>
@@ -61,12 +57,6 @@ const Navbar = ({ title, searchUsers, clearSearch }) => {
 
 Navbar.defaultProps = {
   title: "Github Finder"
-};
-
-Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  searchUsers: PropTypes.func.isRequired,
-  clearSearch: PropTypes.func.isRequired
 };
 
 export default Navbar;

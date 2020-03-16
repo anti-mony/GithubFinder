@@ -11,7 +11,7 @@ import Person from "@material-ui/icons/Person";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-const UserItem = ({ user: { login, avatar_url, html_url } }) => {
+const UserItem = ({ user: { login, avatar_url } }) => {
   return (
     <Card style={{ margin: 8 }}>
       <CardMedia

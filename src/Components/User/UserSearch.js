@@ -1,80 +1,86 @@
-import React, { Component } from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@material-ui/core/TextField";
 import Search from "@material-ui/icons/Search";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Snackbar from "@material-ui/core/Snackbar";
-import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
+import GithubContext from "../../Context/Github/githubContext";
 
-export class UserSearch extends Component {
-  state = {
-    text: "",
-    open: false
+const UserSearch = () => {
+  const githubContext = useContext(GithubContext);
+
+  const [text, setText] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const onChange = e => {
+    setText(e.target.value);
   };
 
-  static propTypes = {
-    searchUsers: PropTypes.func.isRequired
-  };
+  const { clearSearch, searchUsers } = githubContext;
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    if (this.state.text === "") {
-      this.setState({ open: true });
+    if (text === "") {
+      setOpen(true);
     } else {
-      this.props.searchUsers(this.state.text);
-      this.setState({ text: "" });
+      searchUsers(text);
+      setText("");
       document.activeElement.blur();
     }
   };
 
-  render() {
-    return (
-      <form noValidate onSubmit={this.onSubmit}>
-        <TextField
-          id='search'
-          name='text'
-          type='text'
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <Search />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position='end'>
-                {" "}
-                <Button onClick={this.props.clearSearch}>Clear</Button>
-              </InputAdornment>
-            )
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  return (
+    <form noValidate onSubmit={onSubmit}>
+      <TextField
+        id='search'
+        name='text'
+        type='text'
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <Search />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position='end'>
+              {" "}
+              <Button onClick={clearSearch}>Clear</Button>
+            </InputAdornment>
+          )
+        }}
+        placeholder='Search Username'
+        fullWidth
+        value={text}
+        onChange={onChange}
+        size='small'
+        style={{
+          backgroundColor: "#eeeeee"
+        }}
+        variant='outlined'
+      />
+      <div>
+        <Snackbar
+          autoHideDuration={2500}
+          open={open}
+          ContentProps={{
+            "aria-describedby": "message-id"
           }}
-          placeholder='Search Username'
-          fullWidth
-          value={this.state.text}
-          onChange={this.onChange}
-          size='small'
-          style={{
-            backgroundColor: "#eeeeee"
-          }}
-          variant='outlined'
+          message={
+            <span id='message-id'> Empty Search ! Please enter some </span>
+          }
+          onClose={handleClose}
         />
-        <div>
-          <Snackbar
-            autoHideDuration={1500}
-            open={this.state.open}
-            ContentProps={{
-              "aria-describedby": "message-id"
-            }}
-            message={<span id='message-id'> Enter keywords to search </span>}
-            onClose={() => this.setState({ open: false })}
-          />
-        </div>
-      </form>
-    );
-  }
-}
+      </div>
+    </form>
+  );
+};
 
 export default UserSearch;

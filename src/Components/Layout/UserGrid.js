@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import UserItem from "../User/UserItem";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import GithubContext from "../../Context/Github/githubContext";
 
-import PropTypes from "prop-types";
+const UserGrid = () => {
+  const githubContext = useContext(GithubContext);
 
-const UserGrid = ({ users, loading }) => {
+  const { loading, users } = githubContext;
+
   if (loading) {
     return (
       <div>
@@ -24,11 +27,6 @@ const UserGrid = ({ users, loading }) => {
       ))}
     </Grid>
   );
-};
-
-UserGrid.propTypes = {
-  users: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired
 };
 
 export default UserGrid;
